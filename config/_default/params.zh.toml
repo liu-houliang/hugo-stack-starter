@@ -1,0 +1,48 @@
+# 内容所在的子目录，将显示在首页和归档页
+mainSections = ["post"]
+# 在 RSS 中输出全文
+rssFullContent = true
+favicon        = "img/favicon.jpg"
+
+# 排序方式: "default", "lastmod"
+SortBy              = "default"
+
+[footer]
+    since      = 2026
+    customText = "这里可以自定义footer内容"
+
+[dateFormat]
+    # 使用当地日期格式
+    published   = ":date_medium"
+    lastUpdated = ":date_medium"
+
+[sidebar]
+    emoji    = "🚀"
+    subtitle = "这是一个基于 Hugo Theme Stack v4 的修改版本"
+    avatar   = "img/avatar.jpg"
+
+[article]
+    headingAnchor = true
+    math          = false
+    readingTime   = true
+
+    [article.license]
+        enabled = true
+        default = "采用 CC BY-NC-SA 4.0 许可协议"
+
+[widgets]
+    homepage = [
+        { type = "search" },
+        { type = "archives", params = { limit = 5 } },
+        { type = "categories", params = { limit = 10 } },
+        { type = "tag-cloud", params = { limit = 10 } },
+    ]
+    page = [{ type = "toc" }]
+
+[colorScheme]
+    toggle  = true
+    default = "auto"
+
+[comments]
+    enabled  = false
+    provider = "disqus"

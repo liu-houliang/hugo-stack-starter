@@ -1,0 +1,30 @@
+[[main]]
+    identifier = "home"
+    name       = "Home"
+    url        = "/"
+    weight     = 1
+    [main.params]
+        icon = "home"
+
+[[main]]
+    identifier = "archives"
+    name       = "Archives"
+    url        = "/archives/"
+    weight     = 2
+    [main.params]
+        icon = "archives"
+
+[[main]]
+    identifier = "search"
+    name       = "Search"
+    url        = "/search/"
+    weight     = 3
+    [main.params]
+        icon = "search"
+
+[[social]]
+    identifier = "github"
+    name       = "GitHub"
+    url        = "https://github.com/liu-houliang/hugo-stack-starter"
+    [social.params]
+        icon = "brand-github"
