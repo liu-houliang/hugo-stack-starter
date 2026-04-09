@@ -8,7 +8,6 @@ favicon        = "img/favicon.jpg"
 SortBy              = "default"
 
 [footer]
-    since      = 2026
     customText = "这里可以自定义footer内容"
 
 [dateFormat]
@@ -29,20 +28,3 @@ SortBy              = "default"
     [article.license]
         enabled = true
         default = "采用 CC BY-NC-SA 4.0 许可协议"
-
-[widgets]
-    homepage = [
-        { type = "search" },
-        { type = "archives", params = { limit = 5 } },
-        { type = "categories", params = { limit = 10 } },
-        { type = "tag-cloud", params = { limit = 10 } },
-    ]
-    page = [{ type = "toc" }]
-
-[colorScheme]
-    toggle  = true
-    default = "auto"
-
-[comments]
-    enabled  = false
-    provider = "disqus"

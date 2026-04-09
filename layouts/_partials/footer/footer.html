@@ -1,0 +1,66 @@
+{{- $ThemeVersion := "4.0.0" -}}
+<footer class="site-footer">
+    <section class="copyright">
+        &copy;
+        {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2006"))) }}
+            {{ .Site.Params.footer.since }} -
+        {{ end }}
+        {{ now.Format "2006" }} {{ default .Site.Title .Site.Copyright }}
+    </section>
+
+    {{ with .Site.Params.footer.launchDate }}
+    <section class="powerby site-runtime-section">
+        <a href="{{ "/stats/" | relLangURL }}" class="stats-link">
+            <span class="stats-icon">🚀</span>
+            <span id="run-time-text">{{ T "footer.loading" }}</span>
+        </a>
+    </section>
+    <script>
+        (function() {
+            const launchDate = new Date("{{ . }}");
+            if (isNaN(launchDate.getTime())) {
+                console.error('Invalid launch date: {{ . }}');
+                return;
+            }
+            function updateRunTime() {
+                const now = new Date();
+                const diff = now - launchDate;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const el = document.getElementById('run-time-text');
+                if (el) {
+                    const runTimeText = "{{ T `footer.runTime` }}";
+                    if (runTimeText && runTimeText !== "footer.runTime") {
+                        el.textContent = runTimeText.replace('%d', days).replace('%h', hours).replace('%m', mins);
+                    } else {
+                        // Fallback if translation not found
+                        const lang = document.documentElement.lang || 'en';
+                        if (lang.startsWith('zh')) {
+                            el.textContent = `已运行 ${days} 天 ${hours} 时 ${mins} 分`;
+                        } else {
+                            el.textContent = `Running for ${days}d ${hours}h ${mins}m`;
+                        }
+                    }
+                }
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                updateRunTime();
+                setInterval(updateRunTime, 60000);
+            });
+        })();
+    </script>
+    {{ end }}
+
+    <section class="powerby">
+        {{ with .Site.Params.footer.customText }}
+            {{ . | safeHTML }} <br/>
+        {{ end }}
+
+        {{- $Generator := `<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>` -}}
+        {{- $Theme := printf `<b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="%s">Stack</a></b>` $ThemeVersion -}}
+        {{- $DesignedBy := `<a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>` -}}
+
+        {{ T "footer.builtWith" (dict "Generator" $Generator) | safeHTML }} | {{ T "footer.designedBy" (dict "Theme" $Theme "DesignedBy" $DesignedBy) | safeHTML }}
+    </section>
+</footer>

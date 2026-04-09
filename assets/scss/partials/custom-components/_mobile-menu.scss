@@ -1,0 +1,243 @@
+/* Mobile header and sidebar styles */
+
+.mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--body-background);
+}
+
+.mobile-header .mobile-home-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+
+    .site-name {
+        font-size: 1.7rem;
+        font-weight: bold;
+        color: var(--card-text-color-main);
+    }
+
+    .mobile-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+}
+
+.mobile-header .mobile-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+}
+
+.mobile-header-button,
+#mobile-menu-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: var(--body-text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    position: relative;
+    z-index: 105;
+    transition: transform 0.2s ease;
+    width: 32px;
+    height: 40px;
+
+    &:active { transform: scale(0.9); }
+
+    svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 2;
+        display: block;
+    }
+
+    .language-label {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        display: block;
+        text-align: center;
+    }
+
+    &#mobile-dark-mode-toggle {
+        .icon-tabler-moon { display: none; }
+    }
+}
+
+.sidebar-search {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .search-form.widget {
+        background: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+
+        p {
+            margin: 0 !important;
+            background: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 8px !important;
+            padding: 0 0 0 10px !important;
+            display: flex !important;
+            align-items: center;
+            height: 45px !important;
+
+            label { display: none !important; }
+
+            input {
+                background: none !important;
+                border: none !important;
+                color: var(--card-text-color-main) !important;
+                font-size: 1.45rem !important;
+                flex: 1 !important;
+                outline: none !important;
+                padding: 0 !important;
+                height: 100% !important;
+
+                &::placeholder {
+                    color: var(--card-text-color-tertiary);
+                    opacity: 0.6;
+                }
+            }
+
+            button {
+                background: none !important;
+                border: none !important;
+                padding: 0 !important;
+                width: 45px !important;
+                height: 45px !important;
+                color: var(--card-text-color-tertiary) !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 16px !important;
+                    height: 16px !important;
+                }
+            }
+        }
+    }
+}
+
+.sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sidebar-element-separation, 20px);
+    height: 100%;
+}
+
+@media (max-width: 767px) {
+    .mobile-header {
+        display: flex;
+        padding: 0 2px;
+    }
+
+    #toggle-menu { display: none !important; }
+
+    .sidebar-search { display: none; }
+
+    .sidebar-inner {
+        display: none;
+        padding-bottom: 10px;
+
+        &.active {
+            display: flex;
+            animation: sidebarFadeIn 0.3s ease-out;
+
+            #main-menu {
+                display: flex !important;
+                flex-direction: column;
+                margin: 0;
+                padding: 12px;
+                background: var(--card-background);
+                border: 1px solid var(--card-border);
+                border-radius: var(--card-border-radius);
+                box-shadow: var(--shadow-l1);
+                gap: 5px;
+
+                li {
+                    list-style: none;
+
+                    a {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        padding: 10px 12px;
+                        border-radius: 8px;
+                        font-weight: 500;
+                        color: var(--card-text-color-main);
+                        transition: all 0.2s;
+
+                        span { font-size: 1.5rem; }
+                        svg { width: 22px; height: 22px; }
+                    }
+
+                    &.current a {
+                        color: var(--accent-color);
+                        font-weight: 700;
+                        background: var(--card-background-selected);
+                    }
+                }
+
+                .menu-bottom-section { display: none; }
+            }
+        }
+    }
+
+    .left-sidebar.mobile-menu-open {
+        .mobile-header { background: transparent; }
+
+        .mobile-home-link {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar-inner.active {
+            margin-top: -45px;
+            padding-top: 10px;
+            background: var(--body-background);
+        }
+    }
+}
+
+[data-scheme="dark"] {
+    #mobile-dark-mode-toggle {
+        .icon-tabler-sun { display: none; }
+        .icon-tabler-moon { display: block !important; }
+    }
+
+    .hamburger.is-active .hamburger-inner,
+    .hamburger.is-active .hamburger-inner::before,
+    .hamburger.is-active .hamburger-inner::after {
+        background-color: var(--accent-color) !important;
+    }
+}
+
+.hamburger.is-active .hamburger-inner,
+.hamburger.is-active .hamburger-inner::before,
+.hamburger.is-active .hamburger-inner::after {
+    background-color: var(--accent-color) !important;
+}
+
+@keyframes sidebarFadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

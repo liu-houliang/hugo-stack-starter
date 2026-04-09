@@ -28,3 +28,10 @@
     url        = "https://github.com/liu-houliang/hugo-stack-starter"
     [social.params]
         icon = "brand-github"
+
+[[social]]
+    identifier = "RSS"
+    name       = "RSS"
+    url        = "/index.xml"
+    [social.params]
+        icon = "rss"

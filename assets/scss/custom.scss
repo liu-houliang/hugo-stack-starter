@@ -1,0 +1,66 @@
+/*
+ * Custom styles for Hugo Theme Stack v4
+ */
+
+@import "partials/custom-components/typography";
+@import "partials/custom-components/homepage-grid";
+@import "partials/custom-components/mobile-menu";
+@import "partials/custom-components/footer";
+
+:root {
+    --body-background: #f4f6f9;
+    --accent-color: #1B365D;
+    --accent-color-rgb: 27, 54, 93;
+    --accent-color-darker: #202A44;
+    --accent-color-text: #FFF;
+    --body-text-color: #202A44;
+
+    --card-background: #FFF;
+    --card-background-selected: #fff;
+    --card-border: transparent;
+    --card-text-color-main: #202A44;
+    --card-text-color-secondary: #53565A;
+    --card-text-color-tertiary: #888B8D;
+    --card-separator-color: rgba(218, 218, 218, 0.5);
+
+    --blockquote-background-color: #f6f8fa;
+    --code-background-color: #f6f8fa;
+    --code-text-color: #24292f;
+
+    font-family: "HarmonyOS_Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    &[data-scheme="dark"] {
+        --body-background: #101214;
+        --accent-color-text: #000;
+        --body-text-color: #c9d1d9;
+
+        --card-background: #1c2128;
+        --card-background-selected: #22272e;
+        --card-border: #30363d;
+
+        --card-text-color-main: #edf2f7;
+        --card-text-color-secondary: #aab4be;
+        --card-text-color-tertiary: #8b949e;
+        --card-separator-color: #383838;
+
+        --code-background-color: #2d333b;
+        --code-text-color: #adbac7;
+        --blockquote-background-color: #22272e;
+
+        img, video, iframe {
+            filter: brightness(.8) contrast(1.1);
+            transition: filter 0.5s ease-in-out;
+            &:hover { filter: brightness(1) contrast(1); }
+        }
+    }
+}
+
+::selection {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+[data-scheme="dark"] ::selection {
+    background-color: rgba(var(--accent-color-rgb), 0.35);
+    color: var(--accent-color);
+}
