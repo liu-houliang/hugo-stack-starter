@@ -1,0 +1,1081 @@
+{{ define "main" }}
+{{- $page := . -}}
+{{- $allPosts := slice -}}
+{{- range .Sites -}}
+{{- $allPosts = $allPosts | append (where .RegularPages "Section" "post") -}}
+{{- end -}}
+
+{{/* Calculate Statistics */}}
+{{- $totalWords := 0 -}}
+{{- range $allPosts -}}
+{{- $totalWords = add $totalWords .WordCount -}}
+{{- end -}}
+
+{{/* Find Max Category Count for Progress Bars */}}
+{{- $maxCatCount := 0 -}}
+{{- range .Site.Taxonomies.categories -}}
+{{- if gt .Count $maxCatCount }}{{ $maxCatCount = .Count }}{{ end -}}
+{{- end -}}
+
+<div class="stats-dashboard-wrapper page-loading" style="opacity: 0; visibility: hidden; transition: opacity 0.5s ease;">
+    <div class="stats-dashboard">
+        <header class="stats-header">
+            <h2 class="section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-analytics" width="40"
+                    height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M7 20l10 0"></path>
+                    <path d="M9 16l0 4"></path>
+                    <path d="M15 16l0 4"></path>
+                    <path d="M8 12l3 -3l2 2l3 -3"></path>
+                </svg>
+                {{ .Title }}
+            </h2>
+            <p class="stats-subtitle">{{ T "stats.subtitle" | default "记录创作点滴" }}</p>
+        </header>
+
+        {{/* Summary Cards */}}
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon post-count-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-article" width="32"
+                        height="32" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M7 8h10"></path>
+                        <path d="M7 12h10"></path>
+                        <path d="M7 16h10"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">{{ len $allPosts }}</span>
+                    <span class="stat-label">{{ T "stats.posts" | default "篇总文章" }}</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon word-count-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sum" width="32"
+                        height="32" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M18 16v2a1 1 0 0 1 -1 1h-11l6 -7l-6 -7h11a1 1 0 0 1 1 1v2"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">{{ if gt $totalWords 10000 }}{{ printf "%.1fk" (div (float $totalWords)
+                        1000.0)
+                        }}{{ else }}{{ $totalWords }}{{ end }}</span>
+                    <span class="stat-label">{{ T "stats.words" | default "总码字量" }}</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon runtime-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history" width="32"
+                        height="32" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 8l0 4l2 2"></path>
+                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value" id="stats-runtime-days">0</span>
+                    <span class="stat-label">{{ T "stats.runtime" | default "运行天数" }}</span>
+                </div>
+            </div>
+        </div>
+
+        {{/* Categories and Tags Grid */}}
+        <div class="stats-sections-grid">
+            <div class="stats-section">
+                <h3 class="stats-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category" width="28"
+                        height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 4h6v6h-6z"></path>
+                        <path d="M14 4h6v6h-6z"></path>
+                        <path d="M4 14h6v6h-6z"></path>
+                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                    </svg>
+                    {{ T "stats.categories" | default "分类分布" }}
+                </h3>
+                <div class="stats-chart-card card bar-chart-container">
+                    <ul class="category-list-stats">
+                        {{ range .Site.Taxonomies.categories.ByCount }}
+                        <li>
+                            <a href="{{ .Page.RelPermalink }}" class="category-item-stats">
+                                <span class="category-name">{{ .Page.Title }}</span>
+                                <div class="category-progress-wrapper">
+                                    <div class="category-progress-bar"
+                                        style="width: {{ mul (div (float .Count) (float $maxCatCount)) 100 }}%"></div>
+                                </div>
+                                <span class="category-count">{{ .Count }}</span>
+                            </a>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3 class="stats-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="28"
+                        height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M11 3l9 9a1.5 1.5 0 0 1 0 2l-6 6a1.5 1.5 0 0 1 -2 0l-9 -9v-4a4 4 0 0 1 4 -4h4"></path>
+                        <path d="M9 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                    </svg>
+                    {{ T "stats.tags" | default "热门标签" }}
+                </h3>
+                <div class="stats-chart-card card tag-cloud-container">
+                    <div class="tag-cloud-stats">
+                        {{ range first 30 .Site.Taxonomies.tags.ByCount }}
+                        <a href="{{ .Page.RelPermalink }}" class="tag-item-stats">
+                            {{ .Page.Title }} <span>{{ .Count }}</span>
+                        </a>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{/* Writing Habits Grid */}}
+        <div class="stats-sections-grid habits-grid">
+            <div class="stats-section">
+                <h3 class="stats-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
+                        width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M16 3l0 4"></path>
+                        <path d="M8 3l0 4"></path>
+                        <path d="M4 11l16 0"></path>
+                        <path d="M8 15h2v2h-2z"></path>
+                    </svg>
+                    {{ T "stats.weekly_activity" | default "周发布活跃度" }}
+                </h3>
+                <div class="stats-chart-card card">
+                    <div id="stats-weekly-chart" class="habit-chart week-chart"></div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3 class="stats-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-hour-3" width="28"
+                        height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M12 12h3.5"></path>
+                        <path d="M12 7v5"></path>
+                    </svg>
+                    {{ T "stats.hourly_activity" | default "时段发布活跃度" }}
+                </h3>
+                <div class="stats-chart-card card">
+                    <div id="stats-hourly-chart" class="habit-chart hour-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        {{/* Year Heatmap (GitHub Style) */}}
+        <div class="stats-section heatmap-section">
+            <h3 class="stats-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats" width="28"
+                    height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path>
+                    <path d="M18 14v4h4"></path>
+                    <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                    <path d="M15 3v4"></path>
+                    <path d="M7 3v4"></path>
+                    <path d="M3 11h16"></path>
+                </svg>
+                {{ T "stats.contribution_heatmap" | default "年度文章贡献热力图" }}
+            </h3>
+            <div class="heatmap-container-premium card">
+                <div class="heatmap-scroll-wrapper">
+                    <div class="heatmap-wrapper">
+                        <!-- 左侧：周几标签 -->
+                        <div class="heatmap-days-labels">
+                            <span></span> <!-- Sun -->
+                            <span>Mon</span>
+                            <span></span> <!-- Tue -->
+                            <span>Wed</span>
+                            <span></span> <!-- Thu -->
+                            <span>Fri</span>
+                            <span></span> <!-- Sat -->
+                        </div>
+                        <!-- 右侧：主体（月份 + 网格） -->
+                        <div class="heatmap-content">
+                            <div id="heatmap-months" class="heatmap-months-labels"></div>
+                            <div id="stats-year-heatmap" class="stats-heatmap"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="heatmap-footer">
+                    <div class="heatmap-legend">
+                        <span>{{ T "stats.less" | default "Less" }}</span>
+                        <div class="legend-cells">
+                            <div class="cell level-0"></div>
+                            <div class="cell level-1"></div>
+                            <div class="cell level-2"></div>
+                            <div class="cell level-3"></div>
+                            <div class="cell level-4"></div>
+                        </div>
+                        <span>{{ T "stats.more" | default "More" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        // 1. 运行时间计算
+        const launchDateStr = "{{ .Site.Params.footer.launchDate }}";
+        if (launchDateStr) {
+            const launchDate = new Date(launchDateStr);
+            const now = new Date();
+            const diffDays = Math.floor((now - launchDate) / (1000 * 60 * 60 * 24));
+            const runtimeEl = document.getElementById('stats-runtime-days');
+            if (runtimeEl) runtimeEl.innerText = diffDays;
+        }
+
+        // 2. 数据准备
+        {{ $publishDates := slice }}
+        {{ $commitDates := slice }}
+        {{ range $allPosts }}
+            {{ $publishDates = $publishDates | append (.Date.Format "2006-01-02") }}
+            {{ $commitTime := .Date.Format "2006-01-02T15:04:05" }}
+            {{ if .GitInfo }}{{ $commitTime = .GitInfo.AuthorDate.Format "2006-01-02T15:04:05" }}{{ end }}
+            {{ $commitDates = $commitDates | append $commitTime }}
+        {{ end }}
+
+        const postPublishDates = {{ $publishDates | jsonify | safeJS }};
+        const postCommitDates = {{ $commitDates | jsonify | safeJS }};
+
+    const heatmapData = postPublishDates.reduce((acc, date) => {
+        acc[date] = (acc[date] || 0) + 1;
+        return acc;
+    }, {});
+
+    const grid = document.getElementById('stats-year-heatmap');
+    const monthsContainer = document.getElementById('heatmap-months');
+
+    if (grid && monthsContainer) {
+        grid.innerHTML = '';
+        monthsContainer.innerHTML = '';
+
+        const now = new Date();
+        const endDate = new Date(now);
+        // 确保结束日期是本周六，这样这周的数据会显示在最右侧
+        endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+
+        const startDate = new Date(endDate);
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        startDate.setDate(startDate.getDate() - startDate.getDay()); // Start from Sunday
+
+        let currentMonthLabel = -1;
+
+        // 53 weeks
+        for (let week = 0; week < 53; week++) {
+            const weekCol = document.createElement('div');
+            weekCol.className = 'heatmap-col';
+
+            // Month Label Logic
+            const weekStartDate = new Date(startDate);
+            weekStartDate.setDate(startDate.getDate() + (week * 7));
+            const month = weekStartDate.getMonth();
+
+            if (month !== currentMonthLabel && week < 52) {
+                const monthName = weekStartDate.toLocaleString('en-US', { month: 'short' });
+                const monthLabel = document.createElement('div');
+                monthLabel.className = 'month-label';
+                monthLabel.innerText = monthName;
+                monthLabel.style.left = `${week * 19}px`;
+                monthsContainer.appendChild(monthLabel);
+                currentMonthLabel = month;
+            }
+
+            for (let day = 0; day < 7; day++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + (week * 7) + day);
+
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const date = String(currentDate.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${date}`;
+
+                const count = heatmapData[dateStr] || 0;
+
+                const cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
+
+                let level = 0;
+                if (count > 0) level = 1;
+                if (count > 1) level = 2;
+                if (count > 2) level = 3;
+                if (count > 3) level = 4;
+
+                cell.classList.add(`level-${level}`);
+                cell.title = `${dateStr}: ${count} ${count === 1 ? 'post' : 'posts'}`;
+
+                weekCol.appendChild(cell);
+            }
+            grid.appendChild(weekCol);
+        }
+
+        // 修复：移动端自动滚动到最右侧（最新日期）
+        // 使用 setTimeout 确保 DOM 渲染完成后执行
+        setTimeout(() => {
+            const scrollContainer = document.querySelector('.heatmap-container-premium');
+            if (scrollContainer) {
+                // 滚动位置 = 总滚动宽度 - 容器视口宽度（即最右边）
+                scrollContainer.scrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+            }
+        }, 100);
+    }
+
+    // 3. 写作习惯数据处理（基于 Git 提交时间）
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekData = new Array(7).fill(0);
+    const hourData = new Array(24).fill(0);
+
+    postCommitDates.forEach(dateStr => {
+        const d = new Date(dateStr);
+        weekData[d.getDay()]++;
+        hourData[d.getHours()]++;
+    });
+
+    renderHabitChart('stats-weekly-chart', weekData, weekDays, 'week');
+    renderHabitChart('stats-hourly-chart', hourData, [...Array(24).keys()].map(h => `${h}:00`), 'hour');
+
+    function renderHabitChart(containerId, data, labels, type) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // 对于时段图表，过滤掉值为0的项
+        const filteredData = type === 'hour'
+            ? data.map((val, i) => ({ val, label: labels[i], index: i })).filter(item => item.val > 0)
+            : data.map((val, i) => ({ val, label: labels[i], index: i }));
+
+        const max = Math.max(...filteredData.map(item => item.val));
+        container.innerHTML = filteredData.map(item => `
+            <div class="habit-bar-item">
+                <div class="habit-bar-label">${item.label}</div>
+                <div class="habit-bar-track">
+                    <div class="habit-bar-fill" data-width="${max ? (item.val / max * 100) : 0}%" title="${item.val} posts"></div>
+                </div>
+                <div class="habit-bar-count">${item.val}</div>
+            </div>
+        `).join('');
+    }
+
+    // 4. 数字滚动动画 & 进入动画
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.classList.add('is-visible');
+                entry.target.dataset.animated = 'true'; // 标记已动画，防止重复触发
+                
+                if (entry.target.classList.contains('stat-card')) {
+                    const valueEl = entry.target.querySelector('.stat-value');
+                    if (valueEl && !valueEl.dataset.animated) {
+                        valueEl.dataset.animated = 'true';
+                        animateValue(valueEl);
+                    }
+                }
+                if (entry.target.classList.contains('stats-section')) {
+                    const bars = entry.target.querySelectorAll('.habit-bar-fill');
+                    bars.forEach(bar => {
+                        if (!bar.dataset.animated) {
+                            bar.dataset.animated = 'true';
+                            bar.style.width = bar.getAttribute('data-width');
+                        }
+                    });
+                }
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.stat-card, .stats-section').forEach(el => {
+        el.classList.add('animate-on-scroll');
+        observer.observe(el);
+    });
+
+    // 5. 移除页面加载状态
+    document.addEventListener('DOMContentLoaded', () => {
+        const wrapper = document.querySelector('.stats-dashboard-wrapper');
+        if (wrapper) {
+            wrapper.classList.remove('page-loading');
+            wrapper.style.visibility = 'visible';
+            wrapper.style.opacity = '1';
+        }
+    });
+
+    function animateValue(el) {
+        const text = el.innerText;
+        // 处理包含 k 的情况
+        let target = 0;
+        let suffix = '';
+        if (text.includes('k')) {
+            target = parseFloat(text);
+            suffix = 'k';
+        } else {
+            target = parseInt(text);
+        }
+
+        if (isNaN(target)) return;
+
+        const duration = 1500;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // 使用 easeOutExpo
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const current = easeProgress * target;
+
+            if (suffix === 'k') {
+                el.innerText = current.toFixed(1) + suffix;
+            } else {
+                el.innerText = Math.floor(current);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.innerText = text; // 确保最后显示确切的文本（包括 k）
+            }
+        }
+        requestAnimationFrame(update);
+    }
+    }) ();
+</script>
+
+<style>
+    :root {
+        --stats-gap: 2rem;
+        /* Github colors */
+        --gh-bg: #ebedf0;
+        --gh-l1: #9be9a8;
+        --gh-l2: #40c463;
+        --gh-l3: #30a14e;
+        --gh-l4: #216e39;
+        --cell-size: 16px;
+        --cell-gap: 3px;
+    }
+
+    /* 防止移动端加载时样式闪烁 */
+    .page-loading .stats-dashboard {
+        visibility: hidden;
+    }
+
+    .stats-dashboard {
+        visibility: visible;
+        transition: opacity 0.3s ease;
+    }
+
+
+    [data-scheme="dark"] {
+        --gh-bg: #161b22;
+        --gh-l1: #0e4429;
+        --gh-l2: #006d32;
+        --gh-l3: #26a641;
+        --gh-l4: #39d353;
+    }
+
+    [data-scheme="dark"] .category-progress-bar,
+    [data-scheme="dark"] .habit-bar-fill {
+        background: #ffffff !important;
+    }
+
+    [data-scheme="dark"] .category-count,
+    [data-scheme="dark"] .habit-bar-count {
+        color: #ffffff !important;
+    }
+
+    .stats-dashboard-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* 1. PC 整体显示放大：宽度改为 100% 并限制最大宽度为更宽的值 */
+    .stats-dashboard {
+        width: 100%;
+        max-width: 1400px;
+        box-sizing: border-box;
+    }
+
+    .stats-header {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--card-text-color-main);
+    }
+
+    .stats-subtitle {
+        color: var(--card-text-color-secondary);
+        font-size: 1.4rem;
+        margin-top: 0.8rem;
+        margin-left: 4px;
+    }
+
+    /* 2. 卡片放大 */
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 强制3列，更宽敞 */
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: var(--card-background);
+        padding: 2rem 2.5rem;
+        /* 增加内边距 */
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        box-shadow: var(--shadow-l1);
+        border: 1px solid var(--card-border-color);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .stat-card.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .stat-card:hover {
+        /* 移除位移和缩放，因为卡片不可点击 */
+        box-shadow: var(--shadow-l2);
+        border-color: rgba(var(--accent-color-rgb), 0.4);
+    }
+
+    .stat-icon {
+        width: 64px;
+        /* 放大图标背景 */
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .post-count-icon {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .word-count-icon {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .runtime-icon {
+        background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        /* 放大数字 */
+        font-weight: 800;
+        color: var(--card-text-color-main);
+        line-height: 1.1;
+    }
+
+    .stat-label {
+        font-size: 1.5rem;
+        color: var(--card-text-color-secondary);
+        font-weight: 500;
+        margin-top: 6px;
+    }
+
+    /* Layout Sections */
+    .stats-sections-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        /* 增加底部间距，防止重叠 */
+    }
+
+    /* 3. 修复间距：每个 section 垂直排列时确保有距离 */
+    .stats-section {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+        /* 让 grid gap 控制 */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
+    }
+
+    .stats-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* 专门修复热力图部分，确保它独占一行且距离上方有空隙 */
+    .heatmap-section {
+        grid-column: 1 / -1;
+        /* 强制占满整行 */
+        margin-top: 1rem;
+    }
+
+    .stats-section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1.8rem;
+        /* 放大子标题 */
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: var(--card-text-color-main);
+    }
+
+    .stats-chart-card {
+        padding: 2rem;
+        border-radius: 20px;
+        background: var(--card-background);
+        border: 1px solid var(--card-border-color);
+        box-shadow: var(--shadow-l1);
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 4. 修复文字颜色：Category List */
+    .category-list-stats {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .category-item-stats {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1rem 1.2rem;
+        margin: 0.2rem -1.2rem;
+        text-decoration: none;
+        color: var(--card-text-color-main);
+        align-items: stretch;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .category-item-stats:hover {
+        background: rgba(var(--accent-color-rgb), 0.08);
+        transform: translateX(6px); /* 减小位移幅度，更精致 */
+    }
+
+    .category-item-stats:hover .category-name {
+        color: var(--accent-color);
+        font-weight: 700;
+        transform: scale(1.05);
+    }
+
+    .category-item-stats:hover .category-progress-bar {
+        filter: brightness(1.1);
+        box-shadow: 0 0 15px rgba(var(--accent-color-rgb), 0.5);
+    }
+
+    /* 针对深色模式的强制修正（如果变量失效） */
+    [data-scheme="dark"] .category-item-stats {
+        color: #f0f0f0;
+    }
+
+    .category-name {
+        min-width: 120px;
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        font-weight: 500;
+        /* 允许长名称换行显示 */
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
+        line-height: 1.4;
+        /* 确保文字颜色继承或明确指定 */
+        color: inherit;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .category-progress-wrapper {
+        flex: 1;
+        height: 8px;
+        background: var(--body-background);
+        border-radius: 4px;
+        overflow: hidden;
+        align-self: center;
+    }
+
+    .category-progress-bar {
+        height: 100%;
+        background: var(--accent-color);
+        border-radius: 4px;
+        transition: all 0.4s ease;
+    }
+
+    .category-count {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        font-weight: 600;
+        min-width: 30px;
+        text-align: right;
+    }
+
+    /* Tag Cloud */
+    .tag-cloud-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .tag-item-stats {
+        padding: 1rem 1rem;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 1.3rem;
+        background: var(--body-background);
+        color: var(--card-text-color-secondary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .tag-item-stats:hover {
+        background: var(--accent-color);
+        color: #fff;
+    }
+
+    [data-scheme="dark"] .tag-item-stats:hover {
+        background: var(--accent-color);
+        color: #000;
+    }
+
+    .tag-item-stats span {
+        font-size: 1.3rem;
+        opacity: 0.7;
+    }
+
+    [data-scheme="dark"] .tag-item-stats {
+        color: #ccc;
+    }
+
+    /* Heatmap */
+    .heatmap-container-premium {
+        padding: 2rem;
+        background: var(--card-background);
+        border-radius: 20px;
+        border: 1px solid var(--card-border-color);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .heatmap-scroll-wrapper {
+        overflow-x: auto;
+        scroll-padding: 0 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .heatmap-wrapper {
+        display: flex;
+        gap: 0.8rem;
+        min-width: 1000px;
+        /* PC端增加最小宽度以适应更大的单元格 */
+    }
+
+    /* 移动端保持原有宽度 */
+    @media (max-width: 768px) {
+        .heatmap-wrapper {
+            min-width: 600px;
+        }
+    }
+
+    .heatmap-days-labels {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-top: 1.5rem;
+        gap: var(--cell-gap);
+        padding-right: 0.5rem;
+    }
+
+    .heatmap-days-labels span {
+        height: var(--cell-size);
+        line-height: var(--cell-size);
+        font-size: 1.2rem;
+        color: var(--card-text-color-tertiary);
+        text-align: right;
+        display: block;
+    }
+
+    .heatmap-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .heatmap-months-labels {
+        height: 1.5rem;
+        position: relative;
+        margin-bottom: 0.4rem;
+        /* 确保月份标签容器有足够的宽度 */
+        width: 100%;
+    }
+
+    .month-label {
+        position: absolute;
+        top: 0;
+        font-size: 1.2rem;
+        color: var(--card-text-color-tertiary);
+    }
+
+    .stats-heatmap {
+        display: flex;
+        gap: var(--cell-gap);
+        padding-right: 5px;
+    }
+
+    .heatmap-col {
+        display: flex;
+        flex-direction: column;
+        gap: var(--cell-gap);
+    }
+
+    .heatmap-cell {
+        width: var(--cell-size);
+        height: var(--cell-size);
+        border-radius: 2px;
+        background: var(--gh-bg);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    /* Colors */
+    .level-1 {
+        background: var(--gh-l1) !important;
+    }
+
+    .level-2 {
+        background: var(--gh-l2) !important;
+    }
+
+    .level-3 {
+        background: var(--gh-l3) !important;
+    }
+
+    .level-4 {
+        background: var(--gh-l4) !important;
+    }
+
+    .heatmap-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1.2rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--card-border-color);
+    }
+
+    .heatmap-legend {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 1.2rem;
+        color: var(--card-text-color-secondary);
+    }
+
+    .legend-cells {
+        display: flex;
+        gap: 3px;
+    }
+
+    .legend-cells .cell {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+        background: var(--gh-bg);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .stats-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 900px) {
+        .stats-sections-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+        }
+
+        .heatmap-wrapper {
+            min-width: 600px;
+        }
+
+        .heatmap-container-premium {
+            border-radius: 12px;
+            padding: 1.2rem;
+            padding-bottom: 0.8rem;
+        }
+
+        .heatmap-scroll-wrapper {
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+            margin-left: -0.8rem;
+            margin-right: -0.8rem;
+        }
+
+        /* 移动端自定义滚动条样式 */
+        .heatmap-scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .heatmap-scroll-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 0 12px;
+        }
+
+        .heatmap-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        [data-scheme="dark"] .heatmap-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .heatmap-wrapper {
+            padding: 0 0.5rem;
+        }
+
+        .category-name {
+            font-size: 1.3rem;
+            min-width: 110px;
+        }
+        .category-count {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Habit Charts Styles */
+    .habits-grid {
+        margin-top: 1rem;
+    }
+
+    .habit-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .hour-chart {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem 2rem;
+    }
+
+    .habit-bar-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: transform 0.2s ease;
+    }
+
+
+    .habit-bar-label {
+        min-width: 50px;
+        font-size: 1.3rem;
+        color: var(--card-text-color-main);
+        font-weight: 600;
+        background: var(--body-background);
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        text-align: center;
+    }
+
+    .habit-bar-track {
+        flex: 1;
+        height: 8px;
+        background: var(--body-background);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .habit-bar-fill {
+        height: 100%;
+        background: var(--accent-color);
+        border-radius: 4px;
+        width: 0;
+        transition: width 1s ease-out;
+        filter: opacity(0.8);
+    }
+
+    .habit-bar-item:hover .habit-bar-fill {
+        filter: opacity(1);
+        box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.3);
+    }
+
+    .habit-bar-count {
+        min-width: 30px;
+        text-align: right;
+        font-size: 1.4rem;
+        color: var(--accent-color);
+        font-weight: 700;
+        opacity: 0.9;
+    }
+
+    @media (max-width: 1200px) {
+        .hour-chart {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

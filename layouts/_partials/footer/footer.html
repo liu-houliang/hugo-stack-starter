@@ -33,14 +33,6 @@
                     const runTimeText = "{{ T `footer.runTime` }}";
                     if (runTimeText && runTimeText !== "footer.runTime") {
                         el.textContent = runTimeText.replace('%d', days).replace('%h', hours).replace('%m', mins);
-                    } else {
-                        // Fallback if translation not found
-                        const lang = document.documentElement.lang || 'en';
-                        if (lang.startsWith('zh')) {
-                            el.textContent = `已运行 ${days} 天 ${hours} 时 ${mins} 分`;
-                        } else {
-                            el.textContent = `Running for ${days}d ${hours}h ${mins}m`;
-                        }
                     }
                 }
             }
