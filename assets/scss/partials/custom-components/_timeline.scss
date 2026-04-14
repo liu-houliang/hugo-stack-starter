@@ -1,0 +1,96 @@
+/* 时间线样式 */
+.timeline-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    background: transparent;
+    list-style: none;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--card-separator-color);
+    transform: translateX(-50%);
+    transition: background 0.3s;
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-marker {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    border: 3px solid var(--card-background);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    box-shadow: 0 0 0 4px var(--body-background);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.timeline-content {
+    width: calc(50% - 40px);
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: var(--card-background);
+    box-shadow: var(--shadow-l1);
+    color: var(--card-text-color-main);
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    margin-top: 0;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+    margin-left: auto;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    margin-right: auto;
+}
+
+.timeline-date {
+    color: var(--accent-color);
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.timeline-text {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* 响应式设计 - 时间线在小屏幕上改为单列布局 */
+@media (max-width: 768px) {
+    .timeline-container {
+        max-width: 100%;
+    }
+
+    .timeline-container::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+    }
+
+    .timeline-marker {
+        left: 20px;
+    }
+
+    .timeline-content {
+        width: calc(100% - 45px);
+        margin-left: 45px !important;
+    }
+}

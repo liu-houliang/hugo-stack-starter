@@ -8,6 +8,7 @@
 @import "partials/custom-components/footer";
 @import "partials/custom-components/code";
 @import "partials/custom-components/title";
+@import "partials/custom-components/timeline";
 
 :root {
     --body-background: #f4f6f9;
@@ -33,7 +34,6 @@
 
     &[data-scheme="dark"] {
         --body-background: #101214;
-        --accent-color-text: #000;
         --body-text-color: #c9d1d9;
 
         --card-background: #1c2128;
@@ -57,12 +57,47 @@
     }
 }
 
-::selection {
-    background-color: var(--accent-color);
-    color: #fff;
+
+/* 目录滚动条优化 - 与页面滚动条保持一致 */
+.toc-nav {
+    /* 滚动条整体 */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    /* 滚动条轨道 */
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 4px;
+    }
+
+    /* 滚动条滑块 */
+    &::-webkit-scrollbar-thumb {
+        background: rgba(120, 130, 140, 0.25);
+        border-radius: 4px;
+        transition: background 0.2s ease;
+    }
+
+    /* 滚动条滑块悬停 */
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(120, 130, 140, 0.45);
+    }
+
+    /* Firefox 滚动条 */
+    scrollbar-width: auto;
+    scrollbar-color: rgba(120, 130, 140, 0.25) transparent;
 }
 
-[data-scheme="dark"] ::selection {
-    background-color: rgba(var(--accent-color-rgb), 0.35);
-    color: var(--accent-color);
+/* 深色模式目录滚动条优化 */
+[data-scheme="dark"] .toc-nav {
+    &::-webkit-scrollbar-thumb {
+        background: rgba(120, 130, 140, 0.35);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(120, 130, 140, 0.55);
+    }
+
+    scrollbar-color: rgba(120, 130, 140, 0.35) transparent;
 }
