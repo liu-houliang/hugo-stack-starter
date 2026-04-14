@@ -1,0 +1,23 @@
+{{- $title := .Get 0 | default "精彩内容" -}}
+{{- $color := .Get 1 | default "none" -}}
+{{ $presets := dict
+    "red" "#FF6666"
+    "orange" "#fb8c00"
+    "yellow" "#fdd835"
+    "green" "#43a047"
+    "teal" "#00897b"
+    "blue" "#1e88e5"
+    "indigo" "#3949ab"
+    "purple" "#8e24aa"
+    "pink" "#d81b60"
+    "gray" "#6b7280"
+    "muted" "#9ca3af"
+    "black" "#111827"
+    "white" "#ffffff"
+}}
+
+{{ $colorVal := cond (hasPrefix $color "#") $color (index $presets $color) | default $color }}
+
+<div class="short-divider">
+  <span class="divider-title" style="color: {{ $colorVal }};">{{ $title }}</span>
+</div>

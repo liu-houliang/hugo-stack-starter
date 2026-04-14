@@ -1,0 +1,17 @@
+/* Title Shortcode 样式 - 短横线分割线 */
+.short-divider {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.short-divider::before,
+.short-divider::after {
+    content: "—";
+    margin: 0 12px;
+    color: var(--card-text-color-tertiary);
+}
+
+.divider-title {
+    font-size: 18px;
+    font-weight: 500;
+}

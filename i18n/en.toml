@@ -91,3 +91,6 @@ darkMode   = "Dark Mode"
     hourly_activity      = "Hourly Activity"
     less                 = "Less"
     more                 = "More"
+
+foldcode_summary  = "Click to expand code"
+foldcode_collapse = "Click to collapse code"

@@ -82,3 +82,6 @@ darkMode   = "暗色模式"
     hourly_activity     = "时段发布活跃度"
     less                = "少"
     more                = "多"
+
+foldcode_summary  = "点击展开代码"
+foldcode_collapse = "点击折叠代码"

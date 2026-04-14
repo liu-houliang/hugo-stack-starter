@@ -1,0 +1,6 @@
+<details class="foldcode">
+  <summary><span class="foldcode-expand-text">{{ with .Get 0 }}{{ . }}{{ else }}{{ i18n "foldcode_summary" | default
+      "点击展开代码" }}{{ end }}</span><span class="foldcode-collapse-text">{{ with .Get 1 }}{{ . }}{{ else }}{{ i18n
+      "foldcode_collapse" | default "点击折叠代码" }}{{ end }}</span></summary>
+  <div class="foldcode-content">{{ .Inner | markdownify }}</div>
+</details>
