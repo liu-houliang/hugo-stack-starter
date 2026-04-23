@@ -143,12 +143,12 @@ image: cover.jpg  # 特色图片（可选）
 
 ### 1. 折叠代码块
 
-{{< foldcode "展开代码" "收起代码" >}}
+
 ```python
 def hello():
     print("Hello, World!")
 ```
-{{< /foldcode >}}
+
 
 ### 2. 标题分割线
 

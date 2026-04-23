@@ -19,7 +19,7 @@
 .article-content .highlight:before {
     content: "";
     display: block;
-    background: url(/code-header.svg);
+    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0NTBweCIgaGVpZ2h0PSIxMzBweCI+PGVsbGlwc2UgY3g9IjY1IiBjeT0iNjUiIHJ4PSI1MCIgcnk9IjUyIiBzdHJva2U9InJnYigyMjAsNjAsNTQpIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9InJnYigyMzcsMTA4LDk2KSIvPjxlbGxpcHNlIGN4PSIyMjUiIGN5PSI2NSIgcng9IjUwIiByeT0iNTIiIHN0cm9rZT0icmdiKDIxOCwxNTEsMzMpIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9InJnYigyNDcsMTkzLDgxKSIvPjxlbGxpcHNlIGN4PSIzODUiIGN5PSI2NSIgcng9IjUwIiByeT0iNTIiIHN0cm9rZT0icmdiKDI3LDE2MSwzNykiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0icmdiKDEwMCwyMDAsODYpIi8+PC9zdmc+");
     height: 35px;
     width: 100%;
     background-size: 52px;
@@ -47,40 +47,56 @@
     top: 17px;
     right: 12px;
     margin-top: 0;
-    background: var(--card-background);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: var(--shadow-l2);
-    border-radius: var(--tag-border-radius);
-    padding: 4px 10px;
-    color: var(--card-text-color-main);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04),
+                0 1px 3px rgba(0, 0, 0, 0.03);
+    border-radius: 6px;
+    padding: 3px 14px 5px;
+    color: #4b5563;
     cursor: pointer;
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
     opacity: 1;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .article-content .copyCodeButton:hover {
-    background: var(--accent-color);
-    color: var(--accent-color-text);
-    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.7);
+    color: #1f2937;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06),
+                0 2px 6px rgba(0, 0, 0, 0.05);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(calc(-50% - 1px));
+}
+
+.article-content .copyCodeButton:active {
+    transform: translateY(-50%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* 复制按钮深色模式 */
 [data-scheme="dark"] .article-content .copyCodeButton {
-    background: rgba(40, 44, 52, 0.95);
-    color: #eee;
-    border: 1px solid #444;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    background: rgba(40, 44, 52, 0.95) !important;
+    color: #eee !important;
+    border: 1px solid #444 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
 }
 
 [data-scheme="dark"] .article-content .copyCodeButton:hover {
-    background: rgba(60, 65, 75, 0.95);
-    color: #90caf9;
-    border-color: #1976d2;
-    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+    background: rgba(65, 70, 80, 0.9) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    transform: translateY(calc(-50% - 1px));
 }
 
 /* 代码块滚动条：始终占位，默认透明，hover/focus时可见 */
@@ -153,120 +169,103 @@
     background: rgba(120, 130, 140, 0.55);
 }
 
-/* 代码折叠 */
-.foldcode {
-    box-sizing: border-box;
-    background: var(--pre-background-color, #f6f8fa);
-    border-radius: 10px;
-    margin: 1.5rem 0;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+/* 自动折叠长代码块相关样式 */
+.highlight {
+    &.collapsed {
+        max-height: 600px;
+        overflow: hidden;
+        /* 进一步减小淡出区域，只在最底部边缘淡出 */
+        -webkit-mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
+    }
+
+    &.expanded {
+        max-height: none;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
 }
 
-[data-scheme="dark"] .foldcode {
-    background: var(--pre-background-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.foldcode summary {
-    display: flex;
-    align-items: center;
+.code-expand-btn {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 45px; /* 减小高度，避免大面积覆盖代码 */
+    /* 显式定义亮色 rgba 透明来避免默认 transparent 产生的暗灰过渡带 */
+    background: linear-gradient(to bottom, rgba(242, 241, 235, 0), var(--pre-background-color) 95%);
     cursor: pointer;
-    font-weight: 600;
-    padding: 12px 16px;
-    color: var(--card-text-color-main);
-    user-select: none;
-    outline: none;
-    transition: background 0.2s ease;
-    list-style: none;
-}
-
-.foldcode summary::-webkit-details-marker {
-    display: none;
-}
-
-.foldcode summary:hover {
-    background: rgba(0, 0, 0, 0.02);
-}
-
-[data-scheme="dark"] .foldcode summary:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
-
-/* Custom arrow */
-.foldcode summary::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
-    margin-right: 12px;
-    transition: transform 0.3s ease;
-    opacity: 0.6;
-}
-
-.foldcode[open] summary::before {
-    transform: rotate(45deg);
-}
-
-.foldcode-collapse-text {
-    display: none;
-}
-
-.foldcode[open] .foldcode-expand-text {
-    display: none;
-}
-
-.foldcode[open] .foldcode-collapse-text {
-    display: inline;
-}
-
-.foldcode-content {
-    padding: 0;
-    animation: foldcode-fade-in 0.4s ease-out;
-}
-
-.foldcode-content .highlight:before {
-    display: none;
-}
-
-.foldcode-content .highlight pre {
-    border: none;
-    box-shadow: none;
-    padding-bottom: 1.5rem;
-}
-
-@keyframes foldcode-fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
+    z-index: 10;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15px; /* 稍微缩减底部间距 */
+    border-radius: 0 0 10px 10px;
+    transition: all 0.3s ease;
+    
+    &::after {
+        content: attr(data-expand);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--card-text-color-main);
+        background: var(--card-background);
+        padding: 6px 20px;
+        border-radius: 15px;
+        border: 1px solid var(--card-separator-color);
+        box-shadow: var(--shadow-l1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235d5d5d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 32px;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    &:hover {
+        &::after {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-l2);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
     }
+
+    .collapsed & {
+        display: flex;
+    }
+
+    .expanded & {
+        display: flex;
+        position: relative; 
+        height: 20px;
+        padding-bottom: 0px;
+        background: none !important; /* 强制去除渐变 */
+        margin-top: 10px;
+        
+        &::after {
+            content: attr(data-collapse);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235d5d5d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        }
+    }
+}
+
+// 深色模式适配
+[data-scheme="dark"] .code-expand-btn {
+    &::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+}
+
+// 展开状态下的深色模式箭头补丁
+[data-scheme="dark"] .expanded .code-expand-btn::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E") !important;
 }
 
 @media (max-width: 768px) {
-    .foldcode {
-        margin-left: 0;
-        margin-right: 0;
-        width: 100%;
-        border-radius: 8px;
-    }
-
-    .foldcode summary {
-        padding: 8px 12px;
-        font-size: 1.5rem;
-    }
-
-    .foldcode summary::before {
-        width: 6px;
-        height: 6px;
-        margin-right: 10px;
+    .highlight.collapsed {
+        max-height: 450px;
     }
 }

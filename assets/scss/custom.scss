@@ -11,26 +11,24 @@
 @import "partials/custom-components/timeline";
 
 :root {
-    --body-background: #f4f6f9;
+    --body-background: #f8f7f2;
     --accent-color: #1B365D;
     --accent-color-rgb: 27, 54, 93;
     --accent-color-darker: #202A44;
     --accent-color-text: #FFF;
-    --body-text-color: #202A44;
+    --body-text-color: #2D3748;
 
-    --card-background: #FFF;
-    --card-background-selected: #fff;
+    --card-background: #fdfdfb;
+    --card-background-selected: #fdfdfb;
     --card-border: transparent;
-    --card-text-color-main: #202A44;
-    --card-text-color-secondary: #53565A;
-    --card-text-color-tertiary: #888B8D;
-    --card-separator-color: rgba(218, 218, 218, 0.5);
+    --card-text-color-main: #333333;
+    --card-text-color-secondary: #5d5d5d;
+    --card-text-color-tertiary: #8c8c8c;
+    --card-separator-color: rgba(0, 0, 0, 0.08);
 
-    --blockquote-background-color: #f6f8fa;
-    --code-background-color: #f6f8fa;
+    --blockquote-background-color: #f2f1eb;
+    --code-background-color: #f2f1eb;
     --code-text-color: #24292f;
-
-    font-family: "HarmonyOS_Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
     &[data-scheme="dark"] {
         --body-background: #101214;

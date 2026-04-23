@@ -1,1 +1,67 @@
 {{- /* Custom footer content - Add your custom content here */ -}}
+
+<!-- 自动折叠长代码块 -->
+<script>
+  (function() {
+    function initCodeBlocks() {
+      // 触发折叠的高度阈值 (与 CSS 中保持一致)
+      const MAX_HEIGHT = 600; 
+      
+      // 选取文章内容中的代码块
+      const highlightBlocks = document.querySelectorAll('.article-content .highlight');
+      
+      highlightBlocks.forEach(block => {
+        if (block.dataset.codeConfigured) return;
+        
+        const pre = block.querySelector('pre');
+        const height = pre ? pre.scrollHeight : block.scrollHeight;
+
+        if (height > MAX_HEIGHT + 40) {
+          block.classList.add('collapsed');
+          
+          const expandBtn = document.createElement('div');
+          expandBtn.className = 'code-expand-btn';
+          expandBtn.dataset.expand = "{{ if eq .Site.Language.Lang `en` }}Expand Code{{ else }}展开代码{{ end }}";
+          expandBtn.dataset.collapse = "{{ if eq .Site.Language.Lang `en` }}Collapse Code{{ else }}收起代码{{ end }}";
+          
+          block.appendChild(expandBtn);
+          
+        expandBtn.addEventListener('click', function() {
+          if (block.classList.contains('collapsed')) {
+            // 展开逻辑保持不变
+            block.classList.remove('collapsed');
+            block.classList.add('expanded');
+          } else {
+            // 1. 先记录当前代码块顶部相对于文档的绝对位置
+            const offsetTop = block.getBoundingClientRect().top + window.pageYOffset;
+            
+            // 2. 临时禁用整个页面的平滑滚动（防止 CSS 干扰）
+            const html = document.documentElement;
+            const originalScrollBehavior = html.style.scrollBehavior;
+            html.style.scrollBehavior = 'auto';
+
+            // 3. 执行折叠
+            block.classList.remove('expanded');
+            block.classList.add('collapsed');
+
+            // 4. 立即跳转，并配合 requestAnimationFrame 确保在布局刷新后执行
+            window.scrollTo(0, offsetTop - 80);
+
+            // 5. 恢复原有的滚动行为
+            requestAnimationFrame(() => {
+                html.style.scrollBehavior = originalScrollBehavior;
+            });
+          }
+        });
+        }
+        block.dataset.codeConfigured = 'true';
+      });
+    }
+
+    // 适配 Hugo Theme Stack 的内容加载机制
+    // 定时检查以确保处理动态加载的内容（如果有的话）
+    document.addEventListener('DOMContentLoaded', initCodeBlocks);
+    // 额外在 load 事件触发一次，确保样式完全加载后计算高度准确
+    window.addEventListener('load', initCodeBlocks);
+  })();
+</script>

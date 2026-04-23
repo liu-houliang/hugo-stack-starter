@@ -10,7 +10,7 @@
 
     {{ with .Site.Params.footer.launchDate }}
     <section class="powerby site-runtime-section">
-        <a href="{{ "/stats/" | relLangURL }}" class="stats-link">
+        <a href="{{ "stats/" | relLangURL }}" class="stats-link">
             <span class="stats-icon">🚀</span>
             <span id="run-time-text">{{ T "footer.loading" }}</span>
         </a>

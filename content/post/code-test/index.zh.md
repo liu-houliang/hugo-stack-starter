@@ -87,7 +87,7 @@ async function fetchData(url) {
 
 ### 默认折叠代码
 
-{{< foldcode >}}
+
 ```go
 package main
 
@@ -109,11 +109,11 @@ func main() {
     }
 }
 ```
-{{< /foldcode >}}
+
 
 ### 自定义展开/折叠文字
 
-{{< foldcode "查看完整配置" "收起配置" >}}
+
 ```yaml
 # Hugo 配置文件示例
 baseURL: 'https://example.com'
@@ -149,13 +149,13 @@ params:
     enable: true
     type: 'fuse'
 ```
-{{< /foldcode >}}
+
 
 ### 嵌套在列表中的折叠代码
 
 1. 第一步：安装依赖
 
-   {{< foldcode "查看安装命令" >}}
+   
    ```bash
    # 使用 npm 安装
    npm install -g @angular/cli
@@ -169,11 +169,11 @@ params:
    # 验证安装
    ng version
    ```
-   {{< /foldcode >}}
+   
 
 2. 第二步：创建新项目
 
-   {{< foldcode "查看创建命令" >}}
+   
    ```bash
    # 创建新项目
    ng new my-angular-app
@@ -184,11 +184,11 @@ params:
    # 启动开发服务器
    ng serve --open
    ```
-   {{< /foldcode >}}
+   
 
 ### 包含长代码的折叠块
 
-{{< foldcode >}}
+
 ```rust
 // Rust 实现的链表
 use std::rc::Rc;
@@ -243,7 +243,7 @@ impl<T> Drop for List<T> {
     }
 }
 ```
-{{< /foldcode >}}
+
 
 ## 代码块特性总结
 
