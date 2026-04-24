@@ -5,6 +5,8 @@
 A **ready-to-use blog template** based on [Hugo Theme Stack v4](https://github.com/CaiJimmy/hugo-theme-stack), with a series of visual enhancements and new features on top of the original theme.
 
 > 📢 This project is a **GitHub Template**. Click **"Use this template"** in the top right to create your own blog repo instantly — no Fork needed.
+> 
+> 🌐 **Live Demo**: [https://liu-houliang.github.io/hugo-stack-starter/](https://liu-houliang.github.io/hugo-stack-starter/)
 
 ---
 
