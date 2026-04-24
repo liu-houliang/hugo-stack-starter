@@ -78,7 +78,7 @@
     }
 }
 
-/* 搜索框：使用更高特异性选择器代替 !important */
+/* Search box: Use higher specificity instead of !important */
 .left-sidebar .sidebar-search {
     margin: 0;
     padding: 0;
@@ -168,7 +168,7 @@
         padding: 0 2px;
     }
 
-    /* ID 选择器本身已有最高特异性，无需 !important */
+    /* ID selector has highest specificity by default */
     #toggle-menu { display: none; }
 
     .left-sidebar .sidebar-search { display: none; }
@@ -244,7 +244,7 @@
         .icon-tabler-moon { display: block; }
     }
 
-    /* 使用 ID 选择器确保高特异性覆盖主题的 #toggle-menu.is-active */
+    /* Use ID selector for high specificity over theme defaults */
     #mobile-menu-toggle.is-active .hamburger-inner,
     #mobile-menu-toggle.is-active .hamburger-inner::before,
     #mobile-menu-toggle.is-active .hamburger-inner::after {

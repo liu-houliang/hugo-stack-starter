@@ -1,4 +1,4 @@
-/* 代码块卡片样式 - 覆盖v4主题的负边距 */
+/* Code block card style - overrides theme negative margins */
 .article-content .highlight {
     background-color: var(--pre-background-color);
     border-radius: 10px;
@@ -15,7 +15,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* 为代码块顶部添加 macos 样式 */
+/* Add macOS style to code block top */
 .article-content .highlight:before {
     content: "";
     display: block;
@@ -32,7 +32,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* 代码块内容区域 */
+/* Code block content area */
 .article-content .highlight pre {
     padding: 16px;
     margin: 0;
@@ -41,7 +41,7 @@
     box-sizing: border-box;
 }
 
-/* 复制按钮 - 常显并在标题栏垂直居中 */
+/* Copy button - always visible and vertically centered in title bar */
 .article-content .copyCodeButton {
     position: absolute;
     top: 17px;
@@ -83,7 +83,7 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-/* 复制按钮深色模式 */
+/* Dark mode copy button */
 [data-scheme="dark"] .article-content .copyCodeButton {
     background: rgba(40, 44, 52, 0.95);
     color: #eee;
@@ -99,7 +99,7 @@
     transform: translateY(calc(-50% - 1px));
 }
 
-/* 代码块滚动条：始终占位，默认透明，hover/focus时可见 */
+/* Code block scrollbar: always occupied, transparent by default, visible on hover/focus */
 .article-content pre::-webkit-scrollbar,
 .article-content .highlight pre::-webkit-scrollbar {
     width: 8px;
@@ -147,7 +147,7 @@
     background: rgba(120, 130, 140, 0.45);
 }
 
-/* 深色模式下代码块滚动条 */
+/* Dark mode code block scrollbar */
 [data-scheme="dark"] .article-content pre:hover,
 [data-scheme="dark"] .article-content pre:focus-within,
 [data-scheme="dark"] .article-content .highlight pre:hover,
@@ -169,12 +169,12 @@
     background: rgba(120, 130, 140, 0.55);
 }
 
-/* 自动折叠长代码块相关样式 */
+/* Auto collapse long code blocks */
 .highlight {
     &.collapsed {
         max-height: 600px;
         overflow: hidden;
-        /* 进一步减小淡出区域，只在最底部边缘淡出 */
+        /* Fade out at the bottom edge */
         -webkit-mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
         mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
     }
@@ -193,13 +193,13 @@
     left: 0;
     width: 100%;
     height: 45px; /* 减小高度，避免大面积覆盖代码 */
-    /* 显式定义亮色 rgba 透明来避免默认 transparent 产生的暗灰过渡带 */
+    /* Define light rgba to avoid dark grey transition from default transparent */
     background: linear-gradient(to bottom, rgba(242, 241, 235, 0), var(--pre-background-color) 95%);
     cursor: pointer;
     z-index: 10;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 15px; /* 稍微缩减底部间距 */
+    padding-bottom: 15px; /* Reduce bottom spacing */
     border-radius: 0 0 10px 10px;
     transition: all 0.3s ease;
     
@@ -252,14 +252,14 @@
     }
 }
 
-// 深色模式适配
+// Dark mode adaptation
 [data-scheme="dark"] .code-expand-btn {
     &::after {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     }
 }
 
-// 展开状态下的深色模式箭头（使用 .highlight.expanded 提升特异性，避免 !important）
+// Dark mode arrow in expanded state (use high specificity to avoid !important)
 [data-scheme="dark"] .highlight.expanded .code-expand-btn {
     &::after {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");

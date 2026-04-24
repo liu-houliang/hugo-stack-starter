@@ -1,13 +1,12 @@
-# Change baseurl before deploy / 建议在部署前修改 baseurl
+# Change baseurl before deploy
 baseurl      = "https://liu-houliang.github.io/hugo-stack-starter/"
 languageCode = "zh-cn"
 title        = "Hugo Theme Stack Starter Template"
 
-# Set default language / 默认语言设置
+# Set default language
 defaultContentLanguage = "zh"
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
-# 如果默认语言是 [zh-cn ja ko]，请将 hasCJKLanguage 设置为 true
 hasCJKLanguage = true
 
 [pagination]

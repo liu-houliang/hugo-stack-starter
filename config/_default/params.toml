@@ -1,7 +1,7 @@
-# Global theme parameters / 全局主题参数
+# Global theme parameters
 
 [homepage]
-    # Set to true to enable 2-column grid layout / 设置为 true 开启首页两栏网格布局
+    # Set to true to enable 2-column grid layout
     grid = true
 
 [footer]
@@ -26,7 +26,7 @@
     provider = "waline"
     
 [comments.waline]
-    # IMPORTANT: Replace this with your own Waline server URL! / 重要：请务必替换为你自己的 Waline 地址！
+    # IMPORTANT: Replace this with your own Waline server URL!
     serverURL    = "https://waline-demo.liuhouliang.com/"
     pageview     = true
     emoji        = ["https://unpkg.com/@waline/emojis@1.0.1/weibo"]

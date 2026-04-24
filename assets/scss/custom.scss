@@ -55,38 +55,38 @@
 }
 
 
-/* 目录滚动条优化 - 与页面滚动条保持一致 */
+/* TOC Scrollbar Optimization */
 .toc-nav {
-    /* 滚动条整体 */
+    /* Scrollbar */
     &::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
 
-    /* 滚动条轨道 */
+    /* Track */
     &::-webkit-scrollbar-track {
         background: transparent;
         border-radius: 4px;
     }
 
-    /* 滚动条滑块 */
+    /* Thumb */
     &::-webkit-scrollbar-thumb {
         background: rgba(120, 130, 140, 0.25);
         border-radius: 4px;
         transition: background 0.2s ease;
     }
 
-    /* 滚动条滑块悬停 */
+    /* Hover Thumb */
     &::-webkit-scrollbar-thumb:hover {
         background: rgba(120, 130, 140, 0.45);
     }
 
-    /* Firefox 滚动条 */
+    /* Firefox */
     scrollbar-width: auto;
     scrollbar-color: rgba(120, 130, 140, 0.25) transparent;
 }
 
-/* 深色模式目录滚动条优化 */
+/* Dark Mode TOC Scrollbar Optimization */
 [data-scheme="dark"] .toc-nav {
     &::-webkit-scrollbar-thumb {
         background: rgba(120, 130, 140, 0.35);

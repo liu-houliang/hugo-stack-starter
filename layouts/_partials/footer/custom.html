@@ -1,13 +1,13 @@
 {{- /* Custom footer content - Add your custom content here */ -}}
 
-<!-- 自动折叠长代码块 -->
+<!-- Auto collapse long code blocks -->
 <script>
   (function() {
     function initCodeBlocks() {
-      // 触发折叠的高度阈值 (与 CSS 中保持一致)
+      // Height threshold for collapse
       const MAX_HEIGHT = 600; 
       
-      // 选取文章内容中的代码块
+      // Select code blocks in article content
       const highlightBlocks = document.querySelectorAll('.article-content .highlight');
       
       highlightBlocks.forEach(block => {
@@ -28,26 +28,26 @@
           
         expandBtn.addEventListener('click', function() {
           if (block.classList.contains('collapsed')) {
-            // 展开逻辑保持不变
+            // Expand logic
             block.classList.remove('collapsed');
             block.classList.add('expanded');
           } else {
-            // 1. 先记录当前代码块顶部相对于文档的绝对位置
+            // 1. Record the absolute position of the top of the current code block relative to the document
             const offsetTop = block.getBoundingClientRect().top + window.pageYOffset;
             
-            // 2. 临时禁用整个页面的平滑滚动（防止 CSS 干扰）
+            // 2. Temporarily disable smooth scroll
             const html = document.documentElement;
             const originalScrollBehavior = html.style.scrollBehavior;
             html.style.scrollBehavior = 'auto';
 
-            // 3. 执行折叠
+            // 3. Collapse
             block.classList.remove('expanded');
             block.classList.add('collapsed');
 
-            // 4. 立即跳转，并配合 requestAnimationFrame 确保在布局刷新后执行
+            // 4. Scroll to top of the block
             window.scrollTo(0, offsetTop - 80);
 
-            // 5. 恢复原有的滚动行为
+            // 5. Restore original scroll behavior
             requestAnimationFrame(() => {
                 html.style.scrollBehavior = originalScrollBehavior;
             });
@@ -58,15 +58,15 @@
       });
     }
 
-    // 适配 Hugo Theme Stack 的内容加载机制
-    // 定时检查以确保处理动态加载的内容（如果有的话）
+    // Compatible with Hugo Theme Stack content loading mechanism
+    // Periodically check to handle dynamically loaded content (if any)
     document.addEventListener('DOMContentLoaded', initCodeBlocks);
-    // 额外在 load 事件触发一次，确保样式完全加载后计算高度准确
+    // Run again on load event to ensure styles are fully loaded for accurate height calculation
     window.addEventListener('load', initCodeBlocks);
   })();
 </script>
 
-<!-- Waline 浏览量批量获取 (适用于首页/列表页/关闭评论的页面) -->
+<!-- Waline pageview batch fetch (for home/list/comment-disabled pages) -->
 {{ if and .Site.Params.comments.waline.serverURL (or .IsHome .IsNode (eq .Params.comments false)) }}
 <script src="//unpkg.com/@waline/client@v2/dist/pageview.js"></script>
 <script>
