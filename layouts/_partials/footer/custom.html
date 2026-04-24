@@ -65,3 +65,18 @@
     window.addEventListener('load', initCodeBlocks);
   })();
 </script>
+
+<!-- Waline 浏览量批量获取 (适用于首页/列表页/关闭评论的页面) -->
+{{ if and .Site.Params.comments.waline.serverURL (or .IsHome .IsNode (eq .Params.comments false)) }}
+<script src="//unpkg.com/@waline/client@v2/dist/pageview.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            Waline.pageviewCount({
+                serverURL: '{{ .Site.Params.comments.waline.serverURL }}',
+                update: false
+            });
+        }, 100);
+    });
+</script>
+{{ end }}

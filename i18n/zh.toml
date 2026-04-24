@@ -12,6 +12,7 @@ darkMode   = "暗色模式"
     relatedContent  = "相关文章"
     lastUpdatedOn   = "最后更新于"
     readingTime     = "阅读时长: {{ .Count }} 分钟"
+    pageview        = "浏览量 "
 
     [article.alert]
         note      = "备注"

@@ -87,17 +87,17 @@
                 margin-top: auto;
                 padding-top: 15px;
                 border-top: 1px solid var(--card-separator-color);
-                display: grid !important;
-                grid-template-columns: 1fr auto;
-                align-items: center;
-                gap: 10px;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start;
+                gap: 12px;
 
                 .inline-meta {
                     display: flex !important;
                     flex-direction: row !important;
-                    flex-wrap: nowrap !important;
+                    flex-wrap: wrap !important;
                     align-items: center;
-                    gap: 12px;
+                    gap: var(--spacing-md);
                     font-size: 1.25rem;
                     color: var(--card-text-color-tertiary);
 
