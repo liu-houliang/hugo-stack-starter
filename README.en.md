@@ -1,57 +1,157 @@
-# Hugo Theme Stack Starter Template
+# Hugo Theme Stack Starter
 
 [中文](README.md) | **English**
 
-This is a blog template based on [Hugo Theme Stack v4](https://github.com/CaiJimmy/hugo-theme-stack).
+A **ready-to-use blog template** based on [Hugo Theme Stack v4](https://github.com/CaiJimmy/hugo-theme-stack), with a series of visual enhancements and new features on top of the original theme.
 
-## Features
+> 📢 This project is a **GitHub Template**. Click **"Use this template"** in the top right to create your own blog repo instantly — no Fork needed.
 
-- **Out-of-the-box**: Pre-configured with Chinese (zh) and English (en) environments.
-- **Beautification Enhanced**: Integrated personal beautification modifications (continuously updated).
-- **Minimalist Installation**: Based on Hugo Modules, easy to upgrade the theme.
+---
 
-## Quick Start
+## ✨ Features
 
-### 1. Install Hugo
+| Feature | Description |
+|---------|-------------|
+| 🎨 **Refined Color System** | Deep blue + warm off-white palette, with light/dark mode |
+| 💻 **Mac-style Code Blocks** | macOS traffic-light header, floating copy button, auto-collapse for long code |
+| 📐 **Homepage Grid Layout** | Two-column card layout on desktop with cover images and hover animations |
+| 📱 **Mobile Navigation** | Brand new top navigation bar with dark mode toggle, language switch, and hamburger menu |
+| 📊 **Stats Dashboard** | GitHub-style heatmap + category/tag charts + writing habit analysis |
+| 🕐 **Site Runtime** | Footer shows days since launch, clicking goes to the Stats page |
+| 🌐 **Bilingual (zh/en)** | Built-in Chinese/English support with one-click switching |
+| 💬 **Waline Comments** | Integrated Waline comment system with pageview counting |
+| 🚀 **One-click Deploy** | GitHub Actions auto-build and deploy to GitHub Pages |
+| 🧩 **Custom Shortcodes** | Timeline and Title divider shortcodes |
 
-Make sure you have **Hugo Extended** version installed (recommended version >= 0.120.0).
+---
 
-### 2. Clone the Repository
+## 🚀 Quick Start
+
+### Option 1: GitHub Template (Recommended — live in 5 minutes)
+
+1. Click **"Use this template"** → **"Create a new repository"** at the top right
+2. Set the repo to **Public**, enter a name, and create it
+3. Go to **Settings** → **Pages** → **Source** → select **"GitHub Actions"**
+4. Edit `config/_default/config.toml` to update `baseurl` and `title`
+5. Commit your changes and wait 1–2 minutes for your GitHub Pages site to go live 🎉
+
+### Option 2: Local Development
 
 ```bash
-git clone https://github.com/liu-houliang/hugo-stack-starter.git my-blog
+# Install Hugo Extended (>= 0.120.0)
+brew install hugo           # macOS
+scoop install hugo-extended  # Windows
+
+# Clone the repository
+git clone https://github.com/your-username/my-blog.git
 cd my-blog
-```
 
-### 3. Local Preview
-
-```bash
+# Start local server
 hugo server
 ```
 
-Visit `http://localhost:1313` to view your blog.
+Visit `http://localhost:1313` to preview.
 
-## Custom Configuration
+---
 
-All configuration files are located in the `config/_default` directory:
+## ⚙️ Basic Configuration
 
-- `config.toml`: Basic information configuration (title, domain, etc.)
-- `languages.toml`: Multilingual settings
-- `params.zh.toml` / `params.en.toml`: Language-specific theme parameters
-- `menu.zh.toml` / `menu.en.toml`: Language-specific navigation bars
+All config files are in `config/_default/`:
 
-## Multilingual Configuration Instructions
+**Minimum required changes:**
 
-This template enables Chinese and English support by default. You can adjust it as needed:
+```toml
+# config.toml
+baseurl = "https://your-username.github.io/repo-name/"
+title   = "My Blog"
 
-### How to delete a language (e.g., delete English)?
-1.  **Modify Configuration**: Delete or comment out the `[en]` block in `config/_default/languages.toml`.
-2.  **Clean Up Files**: Delete all files with the `.en.` suffix in the `config/_default/` directory (e.g., `params.en.toml`, `menu.en.toml`).
-3.  **Refresh Cache**: Restart `hugo server`.
+# params.en.toml
+[sidebar]
+    subtitle = "Your personal tagline"
 
-### How to switch the default language?
-Edit `config/_default/config.toml` and modify the value of `defaultContentLanguage`. For example, to set English as the default language, set it to `en`.
+# params.toml
+[footer]
+    launchDate = "2024-01-01"   # When did your blog start?
 
-## License
+[comments.waline]
+    serverURL = "https://your-waline-url/"
+```
 
-This project is licensed under the [GPL-3.0](LICENSE) license.
+> ⚠️ **Important Note**: The template includes the author's demo Waline URL by default (for preview purposes only). For your actual blog, please **make sure to replace it with your own Waline server URL**, otherwise your comments will be stored on a public demo server! See the built-in tutorial post for Waline deployment instructions.
+
+---
+
+## 📝 Write Your First Post
+
+```bash
+hugo new content post/my-first-post/index.en.md
+```
+
+Example Front Matter:
+
+```yaml
+---
+title: "My First Post"
+description: "A brief description"
+date: 2026-01-01
+categories:
+    - Technology
+tags:
+    - Hugo
+image: cover.jpg
+---
+```
+
+---
+
+## 📂 Project Structure
+
+```
+hugo-stack-starter/
+├── .github/workflows/deploy.yml   # GitHub Actions auto-deploy
+├── assets/
+│   └── scss/
+│       ├── custom.scss            # Color variables, global styles
+│       └── partials/custom-components/
+│           ├── _code.scss         # Code block styles
+│           ├── _footer.scss       # Footer runtime display
+│           ├── _homepage-grid.scss # Homepage grid layout
+│           ├── _mobile-menu.scss  # Mobile navigation
+│           ├── _timeline.scss     # Timeline shortcode styles
+│           └── _title.scss        # Title divider shortcode styles
+├── config/_default/               # All configuration files
+├── content/
+│   ├── post/                      # Blog posts
+│   ├── archives/                  # Archive page
+│   ├── search/                    # Search page
+│   └── stats/                     # Stats dashboard page
+├── layouts/
+│   ├── _default/stats.html        # Stats page layout
+│   ├── _partials/
+│   │   ├── footer/footer.html     # Runtime footer
+│   │   └── sidebar/left.html      # Sidebar with mobile nav
+│   └── shortcodes/                # Custom shortcodes
+└── i18n/                          # zh/en translations
+```
+
+---
+
+## 🗑️ Single Language Setup (Chinese only)
+
+1. Remove the `[en]` block from `config/_default/languages.toml`
+2. Delete all `.en.toml` and `.en.md` files
+3. Restart `hugo server`
+
+---
+
+## 🙏 Credits
+
+- Theme based on [Hugo Theme Stack](https://github.com/CaiJimmy/hugo-theme-stack) by [@CaiJimmy](https://github.com/CaiJimmy)
+- Comment system: [Waline](https://waline.js.org/)
+- Static site generator: [Hugo](https://gohugo.io/)
+
+---
+
+## 📄 License
+
+This project is licensed under [GPL-3.0](LICENSE).

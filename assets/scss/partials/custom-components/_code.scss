@@ -85,17 +85,17 @@
 
 /* 复制按钮深色模式 */
 [data-scheme="dark"] .article-content .copyCodeButton {
-    background: rgba(40, 44, 52, 0.95) !important;
-    color: #eee !important;
-    border: 1px solid #444 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+    background: rgba(40, 44, 52, 0.95);
+    color: #eee;
+    border: 1px solid #444;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 [data-scheme="dark"] .article-content .copyCodeButton:hover {
-    background: rgba(65, 70, 80, 0.9) !important;
-    color: #ffffff !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    background: rgba(65, 70, 80, 0.9);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     transform: translateY(calc(-50% - 1px));
 }
 
@@ -237,17 +237,17 @@
         display: flex;
     }
 
-    .expanded & {
+    .highlight.expanded & {
         display: flex;
-        position: relative; 
+        position: relative;
         height: 20px;
         padding-bottom: 0px;
-        background: none !important; /* 强制去除渐变 */
+        background: transparent;
         margin-top: 10px;
-        
+
         &::after {
             content: attr(data-collapse);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235d5d5d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235d5d5d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
         }
     }
 }
@@ -259,9 +259,15 @@
     }
 }
 
-// 展开状态下的深色模式箭头补丁
-[data-scheme="dark"] .expanded .code-expand-btn::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E") !important;
+// 展开状态下的深色模式箭头（使用 .highlight.expanded 提升特异性，避免 !important）
+[data-scheme="dark"] .highlight.expanded .code-expand-btn {
+    &::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+}
+
+[data-scheme="dark"] .highlight.expanded .code-expand-btn::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23adbac7' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
 @media (max-width: 768px) {

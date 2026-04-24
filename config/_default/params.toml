@@ -22,5 +22,16 @@
     default = "auto"
 
 [comments]
-    enabled  = false
-    provider = "disqus"
+    enabled  = true
+    provider = "waline"
+    
+[comments.waline]
+    # IMPORTANT: Replace this with your own Waline server URL! / 重要：请务必替换为你自己的 Waline 地址！
+    serverURL    = "https://waline-demo.liuhouliang.com/"
+    pageview     = true
+    emoji        = ["https://unpkg.com/@waline/emojis@1.0.1/weibo"]
+    requiredMeta = ["name"]
+
+    [comments.waline.locale]
+        admin       = "Admin"
+        placeholder = ""

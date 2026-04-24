@@ -1,168 +1,125 @@
 ---
-title: "快速入门指南"
-description: "从下载本 Starter 开始，快速搭建你的 Hugo 博客，包含运行、配置和写作的完整教程。"
+title: "快速开始：使用 Template 一键部署博客"
+description: "使用本 GitHub Template 模板，无需本地安装，直接通过 GitHub Actions 快速部署你的 Hugo 博客。"
 date: 2026-04-09
+lastmod: 2026-04-23
+weight: 1
 categories:
     - Tutorial
 tags:
     - Hugo
     - 入门
-    - 配置
     - 部署
+    - GitHub Pages
 ---
 
 ## 欢迎使用 Hugo Theme Stack Starter
 
-这是一个基于 **Hugo Theme Stack v4** 的开源博客模板 Starter。本指南将帮助你从下载本仓库开始，快速运行并自定义你的博客。
-
-### 特性概览
-
-- **Mac 风格代码块** - 美观的代码高亮与复制功能
-- **代码折叠** - 使用 Shortcode 折叠长代码
-- **标题分割线** - 使用 `title` Shortcode 创建日记/锻炼记录
-- **响应式设计** - 完美适配桌面和移动设备
-- **深色模式** - 自动适配系统主题
-- **多语言支持** - 内置中英文支持
+这是一个基于 **Hugo Theme Stack v4** 的开箱即用博客模板，内置美化增强、双语支持和 GitHub Actions 自动部署，**无需本地安装任何工具就能快速上手**。
 
 ---
 
-## 快速开始
+## 方式一：GitHub Template 一键部署（推荐）
 
-### 1. 下载 Starter
+> 这是最简单的方式，全程在浏览器中完成。
 
-```bash
-# 克隆仓库
-git clone https://github.com/liu-houliang/hugo-stack-starter.git my-blog
-cd my-blog
+### 第 1 步：使用模板创建你的仓库
 
-# 或者下载 ZIP 解压后进入目录
+1. 打开本项目 GitHub 页面
+2. 点击右上角绿色按钮 **"Use this template"** → **"Create a new repository"**
+3. 填写仓库名称（如 `my-blog`），选择 **Public**（GitHub Pages 免费版需要公开仓库）
+4. 点击 **"Create repository"**
+
+### 第 2 步：开启 GitHub Pages
+
+1. 进入你新建的仓库，点击 **Settings** → **Pages**
+2. 在 **"Source"** 下选择 **"GitHub Actions"**
+3. 保存
+
+### 第 3 步：修改配置
+
+在 GitHub 网页上直接编辑 `config/_default/config.toml`：
+
+```toml
+# 改为你的 GitHub Pages 地址
+baseurl = "https://你的用户名.github.io/仓库名/"
+title   = "我的博客"
 ```
 
-### 2. 安装依赖
+### 第 4 步：推送触发自动部署
 
-确保你已安装 Hugo（扩展版）：
+任何一次代码提交都会触发 GitHub Actions 自动构建并部署。稍等 1-2 分钟后，访问你的 GitHub Pages 地址即可看到博客！
+
+---
+
+## 方式二：本地开发
+
+如果你想在本地预览和编写：
+
+### 安装 Hugo（扩展版）
 
 ```bash
-# macOS (使用 Homebrew)
+# macOS
 brew install hugo
 
-# Windows (使用 Chocolatey)
-choco install hugo-extended
+# Windows（使用 Scoop）
+scoop install hugo-extended
 
-# Linux
+# Linux（apt）
 sudo apt install hugo
 ```
 
-验证安装：
+验证安装（需要 Extended 版本）：
 
 ```bash
 hugo version
+# 输出应包含 extended
 ```
 
-### 3. 启动开发服务器
+### 克隆并运行
 
 ```bash
-hugo server -D
+git clone https://github.com/你的用户名/my-blog.git
+cd my-blog
+hugo server
 ```
 
-访问 http://localhost:1313 查看效果。
+访问 `http://localhost:1313` 即可预览。
 
 ---
 
-## 个性化配置
+## 基本配置说明
 
-### 站点基本信息
+所有配置文件在 `config/_default/` 目录下：
 
-编辑 `config/_default/config.toml`：
+| 文件 | 作用 |
+|------|------|
+| `config.toml` | 站点标题、域名、语言 |
+| `languages.toml` | 多语言设置（中/英） |
+| `params.toml` | 主题参数（评论、首页布局等） |
+| `params.zh.toml` | 中文专属参数（头像、副标题） |
+| `menu.zh.toml` | 中文导航菜单 |
 
+### 必须修改的配置
+
+**1. 站点标题和域名** (`config.toml`)：
 ```toml
-baseURL = 'https://yourdomain.com'
-languageCode = 'zh-cn'
-title = '我的博客'
+baseurl = "https://你的域名/"
+title   = "我的博客"
 ```
 
-### 侧边栏信息
-
-编辑 `config/_default/params.toml`：
-
+**2. 你的头像和介绍** (`params.zh.toml`)：
 ```toml
 [sidebar]
-    compact = false
-    emoji = "🚀"
-    subtitle = "记录生活，分享技术"
-    avatar = "img/avatar.jpg"  # 替换为你的头像
+    subtitle = "你的个性签名"
+    avatar   = "img/avatar.jpg"  # 替换 assets/img/avatar.jpg
 ```
 
-### 主题色
-
-编辑 `assets/scss/custom.scss`：
-
-```scss
-:root {
-    --accent-color: #1B365D;        /* 主色调 */
-    --body-background: #f4f6f9;     /* 背景色 */
-    --card-background: #FFF;        /* 卡片背景 */
-}
+**3. 运行时间** (`params.toml`)：
+```toml
+[footer]
+    launchDate = "2024-01-01"  # 博客建站日期
 ```
-
----
-
-## 创建文章
-
-### 使用命令创建
-
-```bash
-# 创建中文文章
-hugo new content post/my-first-post/index.zh.md
-
-# 创建英文文章
-hugo new content post/my-first-post/index.en.md
-```
-
-### 文章 Front Matter
-
-```markdown
----
-title: "文章标题"
-description: "文章描述，会显示在列表页"
-date: 2026-04-09
-categories:
-    - Tutorial
-tags:
-    - 标签1
-    - 标签2
-image: cover.jpg  # 特色图片（可选）
----
-
-文章内容...
-```
-
----
-
-## 常用 Shortcodes
-
-### 1. 折叠代码块
-
-
-```python
-def hello():
-    print("Hello, World!")
-```
-
-
-### 2. 标题分割线
-
-用于日记或锻炼记录的分段：
-
-```markdown
-{{</* title "晨练 - 跑步5公里" "green" */>}}
-```
-
-效果：
-
-{{< title "晨练 - 跑步5公里" "green" >}}
-
-支持的颜色：red、orange、yellow、green、teal、blue、indigo、purple、pink、gray
 
 ---
 
@@ -170,106 +127,23 @@ def hello():
 
 ```
 my-blog/
-├── assets/              # 自定义资源（SCSS、JS）
-│   └── scss/
-│       ├── custom.scss              # 主样式入口
-│       └── partials/
-│           └── custom-components/   # 组件样式
-├── config/              # 配置文件
-│   └── _default/
-│       ├── config.toml      # 站点配置
-│       ├── params.toml      # 主题参数
-│       ├── languages.toml   # 语言配置
-│       └── menu.zh.toml     # 菜单配置
-├── content/             # 文章内容
-│   ├── post/            # 博客文章
-│   ├── categories/      # 分类页面
-│   └── archives/        # 归档页面
-├── layouts/             # 自定义布局
-│   └── shortcodes/      # 自定义 Shortcodes
-├── static/              # 静态文件
-│   └── img/             # 图片资源
-└── README.md            # 项目说明
+├── .github/workflows/    # GitHub Actions 自动部署（无需修改）
+├── assets/scss/          # 样式定制
+│   ├── custom.scss       # 颜色、全局样式
+│   └── partials/custom-components/  # 组件样式
+├── config/_default/      # 所有配置文件
+├── content/
+│   └── post/             # 博客文章（在这里写作）
+├── layouts/              # 自定义布局和 Shortcodes
+└── static/               # 静态资源（图片等）
 ```
 
 ---
 
-## 部署
+## 下一步
 
-### 部署到 Vercel
-
-1. 在 GitHub 创建新仓库，推送代码
-2. 在 Vercel 导入项目
-3. 构建设置：
-   - Framework: Hugo
-   - Build Command: `hugo --gc --minify`
-   - Output Directory: `public`
-
-### 部署到 GitHub Pages
-
-使用 GitHub Actions，创建 `.github/workflows/deploy.yml`：
-
-```yaml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-          
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: 'latest'
-          extended: true
-          
-      - name: Build
-        run: hugo --gc --minify
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-```
-
----
-
-## 自定义进阶
-
-### 修改代码块样式
-
-编辑 `assets/scss/partials/custom-components/_code.scss`
-
-### 添加新 Shortcode
-
-在 `layouts/shortcodes/` 创建新的 `.html` 文件
-
-### 修改布局
-
-在 `layouts/` 目录下创建同名文件覆盖主题模板
-
----
-
-## 示例文章
-
-- **代码块样式演示** → [查看](/post/code-test/)
-- **日记模板示例** → [查看](/post/diary-template/)
-- **样式自定义指南** → [查看](/post/custom-style/)
-
----
-
-## 相关资源
-
-- [Hugo 官方文档](https://gohugo.io/documentation/)
-- [Hugo Theme Stack 主题](https://github.com/CaiJimmy/hugo-theme-stack)
-- [本 Starter 仓库](https://github.com/liu-houliang/hugo-stack-starter)
+- 📖 [**主题美化介绍**](/post/theme-customization/) — 了解本模板做了哪些改动
+- 💬 [**配置 Waline 评论**](/post/waline-setup/) — 为博客添加评论功能
+- ✏️ [**开始写第一篇博客**](/post/start-writing/) — 学习 Markdown 和多语言写作
 
 祝你写作愉快！🎉

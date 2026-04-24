@@ -19,7 +19,6 @@
         (function() {
             const launchDate = new Date("{{ . }}");
             if (isNaN(launchDate.getTime())) {
-                console.error('Invalid launch date: {{ . }}');
                 return;
             }
             function updateRunTime() {
